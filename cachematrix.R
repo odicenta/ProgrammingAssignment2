@@ -13,6 +13,8 @@ makeCacheMatrix <- function(x = matrix()) {
     ## The get/set method are similar to provided example, using matrix type
     m <- NULL
     set <- function(y){
+        ## stores the x and m matrixes in the upper environment, where 
+        ## they can be accessed
         x <<- y
         m <<- NULL
     }
@@ -20,9 +22,9 @@ makeCacheMatrix <- function(x = matrix()) {
     
     ## this is where we calculate the inverse
     setinverse <- function(solve) m <<- solve
-    getinverse <- function() m
+    getinverse <- function() return(m)
     
-    ## finally we provide the list of available funct.
+    ## finally we return the object created with these functions as a list 
     list(set = set, get = get,
          setinverse = setinverse, 
          getinverse = getinverse)
@@ -44,9 +46,9 @@ cacheSolve <- function(x, ...) {
     
     ## if it is not in cache, it sends the matrix to cache calculating the
     ## inverse in the process and storing it
-    data <- x$get
-    m <- global(data, ...)
+    data <- x$get()
+    m <- solve(data, ...)
     x$setinverse(m)
     ## finally it returns the inverse matrix
-    m
+    return(m)
 }
